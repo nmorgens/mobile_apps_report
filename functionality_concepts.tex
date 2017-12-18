@@ -1,0 +1,35 @@
+\subsection{Functionality}
+
+SelectImagesActivity is the where the user can see their selected images. To work properly, its intent must include \url{user_selected_shares_n}. This is necessary because the activity contains the galleryButton, which executes openGallery() on click.
+This function will check that the application was granted the \url{READ_EXTERNAL_STORAGE} permission and starts CustomPhotoGalleryActivity and waits for its result.
+The intent for the gallery contains the extra “numberOfParts” which is equivalent to \url{user_selected_shares_n}. numberOfParts communicates to the gallery activity how many images must be selected.
+Which the external storage permission, CustomPhotoGalleryActivity uses MediaStore to get the ids and paths of all the images on the phone and instantiates imageAdapter.
+This custom adapter tracks the selected images using an array of booleans “thumbnailsselection”, which is used to manage the checkboxes. Every time an image is clicked, the checkbox’s state is toggled.
+The adapter also generates thumbnails for the images using the function setBitmap. setBitmap also runs as an AsyncTask, so the images are generated in the background.
+
+
+  Once the user selects their photos, if the number selected is equal to numberOfParts (which is tracked using an array of booleans), the paths to the selected images are serialized and added to an intent that goes to SelectImagesActivity.
+  SelectImagesActivity’s onActivityResult function will generates bitmaps using the provided image paths and add them to a LinearLayout in the activity. If the user is satisfied with their selected images, they can press the nextButton, starts UploadImagesActivity using an intent that contains the paths to the selected images.
+  If they are not happy with their selection, they can press the gallery button and select a new set.
+
+
+	In UploadImagesActivity, the images are encoded with the secret shares in the encoding function. Then, using imagesAdapter and the image paths, thumbnails are generated for the encoded images. When the user presses the upload button, the share function is executed. This function generates URIs for the selected images using FileProvider. FileProvider requires an authority, which was declares in the AndroidManifest.
+FileProvider is a very powerful tool because it allows the application to provide other applications temporary access to files. Any applications configured to receive URIs of images are capable of receiving them from Stegoshare. Because of this, implementing API’s for specific applications such as Google Drive or Gmail would be a gratuitous endeavor; it does not provide any additional functionality—rather it would slow down the application and increase its size and complexity.
+If either of those applications is installed on the phone, they can be used to upload the encoded images.Once the user is done, they can press the finish button. This generates an alert dialog warning that once they confirm they are finished, all their data will be deleted. This is a security measure to ensure that the secret shares are no longer available. Once confirmed, the database containing the shares and the encoded images are deleted. Lastly, the activity closes by launching MainActivity.
+
+
+\subsection{Concepts applied}
+Our application used a few concepts from class including Asynchronous Task to create the images in the background and display a progress update to the user.
+
+1. Motivation - what is it good for?
+
+2. Your solution – what does your app do? what functions does it offer to the user?
+
+3. How does it work – key components and their interaction
+
+ - Describe the user interface of your system and how it makes the most common tasks easy and quick to accomplish
+
+ - Describe the key components of your systems (e.g., activities, services, remote database) and how they interact
+
+ - Describe the implementation of selected key components so that a knowledgeable app engineer could create a similar app with the provided information.
+4. How did you organize work in your team? What concepts from class did you apply?
