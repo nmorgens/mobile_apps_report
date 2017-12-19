@@ -31,7 +31,7 @@ The adapter also generates thumbnails for the images using the function setBitma
   If they are not happy with their selection, they can press the gallery button and select a new set.
 
 
-	In UploadImagesActivity, the images are encoded with the secret shares in the encoding function. The shares are stored as hashOfList, prime number, share, share numnber, m, n. This information is needed for the decoding process. For the case of encryption it is same format, only the entire string
+	In UploadImagesActivity, the images are encoded with the secret shares in the encoding function. The shares are stored as hashOfList, prime number, share, share number, m, n. This information is needed for the decoding process. For the case of encryption it is same format, only the entire string
 	is itself encrypted. For the user to recover the formatted string they will need to enter their password. Then, using imagesAdapter and the image paths, thumbnails are generated for the encoded images. When the user presses the upload button, the share function is executed. This function generates URIs for the selected images using FileProvider. FileProvider requires an authority, which was declares in the AndroidManifest.
 FileProvider is a very powerful tool because it allows the application to provide other applications temporary access to files. Any applications configured to receive URIs of images are capable of receiving them from Stegoshare. Because of this, implementing API’s for specific applications such as Google Drive or Gmail would be a gratuitous endeavor; it does not provide any additional functionality—rather it would slow down the application and increase its size and complexity.
 If either of those applications is installed on the phone, they can be used to upload the encoded images.Once the user is done, they can press the finish button. This generates an alert dialog warning that once they confirm they are finished, all their data will be deleted. This is a security measure to ensure that the secret shares are no longer available. Once confirmed, the database containing the shares and the encoded images are deleted. Lastly, the activity closes by launching MainActivity.
@@ -43,6 +43,9 @@ information encoded in them. If stegoshare does not successfully find any inform
 
 \subsection{Concepts applied}
 Our application used a few concepts from class including Asynchronous Task to create the images in the background and display a progress update to the user.
+
+
+
 
 1. Motivation - what is it good for?
 
